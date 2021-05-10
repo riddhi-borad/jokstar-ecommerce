@@ -40,4 +40,5 @@ const product=require("./Routers/product");
 const admin=require("./Routers/master");
 const cart=require("./Routers/cart");
 const order=require("./Routers/order");
-app.use('/',login,registration,category,lvl2category,lvl3category,product,admin,order);
+const banner=require("./Routers/banner")
+app.use('/',login,registration,category,lvl2category,lvl3category,product,admin,order,banner);
