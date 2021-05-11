@@ -29,12 +29,12 @@ router.post("/register",upload.single("image"), (req, res) => {
   }else
   {
     let user = {
-      userId:Date.now()+Math.random()*99999,
+      userId:req.body.userId,
       fullName: req.body.fullName,
       mail: req.body.mail,
       password: req.body.password,
       mobile:req.body.mobile,
-      userType:"custmor",
+      userType:req.body.userType,
       Image:req.file.filename,
       address:req.body.address,
       isActive:true
@@ -56,7 +56,7 @@ router.post("/register",upload.single("image"), (req, res) => {
 router.get('/viewuser',(req,res)=>{
   User.find({})
   .then((result)=>{
-      res.status(200).json(result)
+      res.status(200).json({result})
   })
   .catch((err)=>{
       console.log(err)
