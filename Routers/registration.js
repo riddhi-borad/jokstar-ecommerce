@@ -3,7 +3,8 @@ const router = express.Router();
 const User = require("../models/registration");
 const bcrypt = require("bcryptjs");
 const upload=require('./../config/multer')
-router.post("/register",upload.single("image"), (req, res) => {
+router.post("/register", (req, res) => {
+  console.log(req.body)
   var flagname,flagemail,flagpass,flagspace,errmsg="";
   
   if(!req.body.fullName.match(/^[A-Za-z\\s]+$/)){
@@ -35,7 +36,7 @@ router.post("/register",upload.single("image"), (req, res) => {
       password: req.body.password,
       mobile:req.body.mobile,
       userType:req.body.userType,
-      Image:req.file.filename,
+      // Image:req.file.filename,
       address:req.body.address,
       isActive:true
     };

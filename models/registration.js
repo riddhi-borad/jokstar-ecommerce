@@ -30,16 +30,16 @@ var newschema={
         trim:true,
         required:true,
     },
-    Image:{
-        type:String,
-        trim:true,
-    },
+    // Image:{
+    //     type:String,
+    //     trim:true,
+    // },
     address:{
         type:String,
         trim:true,
         required:true,
     },
-    isactive:{
+    isActive:{
         type:Boolean,
         required:true
     }
