@@ -15,7 +15,7 @@ router.post("/register", (req, res) => {
   flagemail=false;
     errmsg+="Please enter valid email. ";
   }
-  if(!req.body.password.match(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{4,8}$/)){
+  if(!req.body.password.match(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{4,15}$/)){
     flagpass=false;
     errmsg+="Password must be 4-8 char, at least one upper case, one lower case, one numeric and one special character from `@ # $ % ^ & *`. ";
   }
@@ -38,6 +38,10 @@ router.post("/register", (req, res) => {
       userType:req.body.userType,
       // Image:req.file.filename,
       address:req.body.address,
+      pincode:req.body.pincode,
+      country:req.body.country,
+      state:req.body.state,
+      city:req.body.city,
       isActive:true
     };
     bcrypt.hash(req.body.password, "$2a$10$9qeA/55oughPL85/246siu", function (err, hash) {

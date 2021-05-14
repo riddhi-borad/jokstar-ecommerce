@@ -39,6 +39,26 @@ var newschema={
         trim:true,
         required:true,
     },
+    pincode:{
+        type:Number,
+        trim:true,
+        required:true
+    },
+    country:{
+        type:String,
+        trim:true,
+        required:true
+    },
+    state:{
+        type:String,
+        trim:true,
+        required:true
+    },
+    city:{
+        type:String,
+        trim:true,
+        required:true
+    },
     isActive:{
         type:Boolean,
         required:true
