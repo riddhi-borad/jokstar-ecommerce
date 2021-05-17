@@ -1,10 +1,5 @@
 const mongoose=require('mongoose');
 var newschema={
-    userId:{
-        type:String,
-        trim:true,
-        required:true,
-    },
     fullName:{
         type:String,
         trim:true,
@@ -30,10 +25,10 @@ var newschema={
         trim:true,
         required:true,
     },
-    // Image:{
-    //     type:String,
-    //     trim:true,
-    // },
+    Image:{
+        type:String,
+        trim:true,
+    },
     address:{
         type:String,
         trim:true,
