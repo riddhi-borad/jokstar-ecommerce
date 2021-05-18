@@ -5,7 +5,7 @@ const upload=require('./../config/multer')
 router.post('/saveCategory',upload.single("image"),(req,res)=>{
     let addCategory={
     name:req.body.name,
-    image:req.file.filename,
+    Image:req.file.filename,
     visibility:true
 }
 new Category(addCategory).save()
