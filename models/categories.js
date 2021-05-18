@@ -2,12 +2,6 @@ const mongoose=require('mongoose');
 const Schema=mongoose.Schema
 var ObjectId=Schema.ObjectId;
 var newschema=new mongoose.Schema({
-    categoryId:{
-        type:String,
-        trim:true,
-        required:true,
-
-    },
     name:{
         type:String,
         trim:true,

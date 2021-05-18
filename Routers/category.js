@@ -4,7 +4,6 @@ const Category=require("./../models/categories");
 const upload=require('./../config/multer')
 router.post('/saveCategory',upload.single("image"),(req,res)=>{
     let addCategory={
-    categoryId:Date.now()+Math.random()*99999,
     name:req.body.name,
     image:req.file.filename,
     visibility:true
@@ -16,4 +15,62 @@ new Category(addCategory).save()
         console.log(err);
     })
 })
+
+router.get('/viewCategory',(req,res)=>{
+    Category.find({})
+    .then((result)=>{
+        res.status(200).json({result})
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+  })
+
+  router.get("/editCategory/:id", (req, res) => {
+    Category.findOne({ _id: req.params.id })
+      .then((result) => {
+        res.status("200").json({result});
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
+  router.post("/updateCategory", upload.single("image"),(req, res) => {
+    Category.findOne({_id: req.body.id})
+      .then((data) => {
+        data.name= req.body.name;
+        data.Image=req.file.filename;
+        data.visibility=req.body.visibility;
+        data.save()
+          .then((result) => {
+            res.status("200").json({ msg: "Data Updated Successfully!" });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+  
+  router.get('/deleteUser/:id',(req,res)=>{
+    Category.findOne({_id:req.params.id})
+    .then((data)=>{
+      if(data.visibility==true){
+          data.visibility=false;
+      }else{
+          data.visibility=true;
+      }
+      data.save()
+        .then(response=>{ res.status("200").json({msg:true}) })
+        .catch(err=>{ console.log(err) })
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  })
+  
 module.exports = router;

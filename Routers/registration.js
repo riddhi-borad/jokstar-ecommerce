@@ -29,15 +29,15 @@ router.post("/register", (req, res) => {
   }
   if(req.body.country==""){
     flagcountry=false;
-    errmsg+="please select country. "
+    errmsg+="Please select country. "
   }
   if(req.body.state==""){
     flagstate=false;
-    errmsg+="please select state. "
+    errmsg+="Please select state. "
   }
   if(req.body.city==""){
     flagcity=false;
-    errmsg+="please select city. "
+    errmsg+="Please select city. "
   }
   if(flagname==false || flagemail==false || flagpass==false ||  flagspace==false || flagpin==false || flagcountry==false || flagstate==false || flagcity==false){
     var msg=errmsg;
@@ -97,6 +97,34 @@ router.post("/updateUser", upload.single("image"),(req, res) => {
   User.findOne({_id: req.body.id})
     .then((data) => {
       // console.log(data)
+      var flagname,flagpin,flagcountry,flagstate,flagcity,errmsg="";
+  
+  if(!req.body.fullName.match(/^[A-Za-z\\s]+$/)){
+    flagname=false;
+    errmsg="Please enter alphabates only, in Name. ";
+  }
+ 
+  if(!req.body.pincode.match(/^[0-9]{6}$/)){
+    flagpin=false;
+    errmsg+="Please enter 6 digit valid pincode. ";
+  }
+  if(req.body.country==""){
+    flagcountry=false;
+    errmsg+="Please select country. "
+  }
+  if(req.body.state==""){
+    flagstate=false;
+    errmsg+="Please select state. "
+  }
+  if(req.body.city==""){
+    flagcity=false;
+    errmsg+="Please select city. "
+  }
+  if(flagname==false || flagpin==false || flagcountry==false || flagstate==false || flagcity==false){
+    var msg=errmsg;
+    errmsg="";
+    res.status("400").json({ msg: msg });}
+    else{
       data.fullName= req.body.fullName;
       // data.mail= req.body.mail;
       // data.password= req.body.password;
@@ -116,6 +144,7 @@ router.post("/updateUser", upload.single("image"),(req, res) => {
         .catch((err) => {
           console.log(err);
         });
+      }
     })
     .catch((err) => {
       console.log(err);
