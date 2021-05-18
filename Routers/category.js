@@ -56,7 +56,7 @@ router.get('/viewCategory',(req,res)=>{
       });
   });
   
-  router.get('/deleteUser/:id',(req,res)=>{
+  router.get('/deleteCategory/:id',(req,res)=>{
     Category.findOne({_id:req.params.id})
     .then((data)=>{
       if(data.visibility==true){
