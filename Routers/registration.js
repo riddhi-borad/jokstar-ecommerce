@@ -81,8 +81,8 @@ router.post("/register", (req, res) => {
         state:req.body.state,
         city:req.body.city,
         isActive:true,
-        createdDt:Date(),
-        updatedDt:Date()
+        createdDt:Date().toLocaleString('en-US', {timeZone: 'Asia/Kolkata'}),
+        updatedDt:Date().toLocaleString('en-US', {timeZone: 'Asia/Kolkata'})
       };
       bcrypt.hash(req.body.password, "$2a$10$9qeA/55oughPL85/246siu", function (err, hash) {
           user.password = hash;
