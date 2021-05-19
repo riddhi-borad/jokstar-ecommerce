@@ -10,7 +10,7 @@ router.post('/saveproduct',upload.array("image",4),(req,res)=>{
         reqFiles.push(req.files[i].filename)
     }
     let addproduct={
-    productId:Date.now()+Math.random()*99999,
+    jbpId:req.body.jbpId,
     name:req.body.name,
     categoryId:req.body.categoryId,
     lvl2catId:req.body.lvl2catId,

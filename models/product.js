@@ -1,7 +1,7 @@
 const mongoose=require('mongoose');
 const Schema=mongoose.Schema
 var newschema=new mongoose.Schema({
-   productId:{
+   jbpId:{
         type:String,
         trim:true,
         required:true,
@@ -77,17 +77,18 @@ var newschema=new mongoose.Schema({
         type:Boolean,
         required:true
     }
-})
-//custome column reference
-// {
-//     toObject: {virtuals:true},
-//     toJSON: {virtuals:true} 
-// });
+},
+// custome column reference
+{
+    toObject: {virtuals:true},
+    toJSON: {virtuals:true} 
+});
 
-// newschema.virtual('category', {
-//     ref: 'categories',
-//     localField: 'catId',
-//     foreignField: 'categoryid',
-//     justOne: true // for many-to-1 relationships
-//   });
+
+newschema.virtual('user', {
+    ref: 'users',
+    localField: 'jbpId',
+    foreignField: 'jbpId',
+    justOne: true // for many-to-1 relationships
+  });
 module.exports=Product=mongoose.model('products',newschema)
