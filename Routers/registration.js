@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/registration");
 const bcrypt = require("bcryptjs");
-const upload=require('./../config/multer')
+const upload=require('./../config/multer');
+
 router.post("/register", (req, res) => {
   var flagname,flagemail,flagpass,flagspace,flagpin,flagcountry,aldreg,flagstate,flagcity,errmsg="";
   if(req.body.fullName.trim()==""){
@@ -117,6 +118,7 @@ router.get("/editUser/:id", (req, res) => {
   User.findOne({ _id: req.params.id },{mail:0,password:0,mobile:0,isActive:0})
     .then((result) => {
       res.status("200").json({result});
+      // .toLocaleString('en-US', {timeZone: 'Asia/Kolkata'});
     })
     .catch((err) => {
       console.log(err);
@@ -194,6 +196,7 @@ router.get('/deleteUser/:id',(req,res)=>{
     }else{
         data.isActive=true;
     }
+    data.updatedDt=Date()
     data.save()
       .then(response=>{ res.status("200").json({msg:true}) })
       .catch(err=>{ console.log(err) })

@@ -25,7 +25,9 @@ router.post('/saveproduct',upload.array("image",4),(req,res)=>{
     refundable:req.body.refundable,
     image:reqFiles,
     tnc:req.body.tnc,
-    visibility:true  
+    visibility:true,
+    createdDt:Date(),
+    updatedDt:Date()
     }
     new Product(addproduct).save()
     .then(()=>{

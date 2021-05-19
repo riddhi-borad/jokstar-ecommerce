@@ -1,5 +1,6 @@
 const mongoose=require('mongoose');
-var newschema={
+const timeZone = require('mongoose-timezone');
+var newschema=new mongoose.Schema({
     jbpId:{
         type:String,
         trim:true,
@@ -71,5 +72,6 @@ var newschema={
         type:Date,
         required:true
     }
-}
+})
+newschema.plugin(timeZone, { paths: ['createdDt', 'updatedDt'] });
 module.exports=User=mongoose.model('users',newschema)

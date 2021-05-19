@@ -1,5 +1,6 @@
 const mongoose=require('mongoose');
 const Schema=mongoose.Schema
+const timeZone = require('mongoose-timezone');
 var newschema=new mongoose.Schema({
     lvl3catId:{
         type:String,
@@ -23,5 +24,14 @@ var newschema=new mongoose.Schema({
         type:Boolean,
         required:true
     },
+    createdDt:{
+        type:Date,
+        required:true
+    },
+    updatedDt:{
+        type:Date,
+        required:true
+    }
 });
+newschema.plugin(timeZone, { paths: ['createdDt', 'updatedDt'] });
 module.exports=lvl3Category=mongoose.model('lvl3categories',newschema)

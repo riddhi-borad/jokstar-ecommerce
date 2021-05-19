@@ -1,6 +1,5 @@
 const mongoose=require('mongoose');
-const Schema=mongoose.Schema
-var ObjectId=Schema.ObjectId;
+const timeZone = require('mongoose-timezone');
 var newschema=new mongoose.Schema({
     name:{
         type:String,
@@ -15,5 +14,14 @@ var newschema=new mongoose.Schema({
         type:Boolean,
         required:true
     },
+    createdDt:{
+        type:Date,
+        required:true
+    },
+    updatedDt:{
+        type:Date,
+        required:true
+    }
   });
+  newschema.plugin(timeZone, { paths: ['createdDt', 'updatedDt'] });
 module.exports=category=mongoose.model('categories',newschema)

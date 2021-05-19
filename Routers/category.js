@@ -6,7 +6,9 @@ router.post('/saveCategory',upload.single("image"),(req,res)=>{
     let addCategory={
     name:req.body.name,
     Image:req.file.filename,
-    visibility:true
+    visibility:true,
+    createdDt:Date(),
+    updatedDt:Date()
 }
 new Category(addCategory).save()
     .then(()=>{
@@ -42,6 +44,7 @@ router.get('/viewCategory',(req,res)=>{
         data.name= req.body.name;
         data.Image=req.file.filename;
         data.visibility=req.body.visibility;
+        data.updatedDt=Date();
         data.save()
           .then((result) => {
             res.status("200").json({ msg: "Data Updated Successfully!" });
@@ -64,6 +67,7 @@ router.get('/viewCategory',(req,res)=>{
       }else{
           data.visibility=true;
       }
+      data.updatedDt=Date()
       data.save()
         .then(response=>{ res.status("200").json({msg:true}) })
         .catch(err=>{ console.log(err) })
