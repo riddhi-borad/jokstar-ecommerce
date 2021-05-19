@@ -4,6 +4,7 @@ const Category=require("./../models/categories");
 const upload=require('./../config/multer')
 router.post('/saveCategory',upload.single("image"),(req,res)=>{
     let addCategory={
+    jbpId:req.body.jbpId,
     name:req.body.name,
     Image:req.file.filename,
     visibility:true
@@ -18,6 +19,7 @@ new Category(addCategory).save()
 
 router.get('/viewCategory',(req,res)=>{
     Category.find({})
+    .populate("user")
     .then((result)=>{
         res.status(200).json({result})
     })

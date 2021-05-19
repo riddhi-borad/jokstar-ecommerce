@@ -18,6 +18,7 @@ router.post("/login", (req, res) => {
                 mail: response.mail,
                 userType: response.userType,
                 id: response._id,
+                jbpId:response.jbpId
           };
             jwt.sign(payload, (privateKey = "user"), (err, usertoken) => {
                 res.json({
