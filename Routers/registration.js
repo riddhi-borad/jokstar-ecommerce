@@ -4,18 +4,27 @@ const User = require("../models/registration");
 const bcrypt = require("bcryptjs");
 const upload=require('./../config/multer')
 router.post("/register", (req, res) => {
-  // console.log(req.body)
   var flagname,flagemail,flagpass,flagspace,flagpin,flagcountry,aldreg,flagstate,flagcity,errmsg="";
-  
-  if(!req.body.fullName.match(/^[A-Za-z\\s]+$/)){
+  if(req.body.fullName.trim()==""){
+    flagname=false;
+    errmsg="Please enter fullname. ";
+  }else if(!req.body.fullName.match(/^[a-zA-Z ]*$/)){
     flagname=false;
     errmsg="Please enter alphabates only, in Name. ";
   }
-  if(!req.body.mail.match(/^.+@[^\.].*\.[a-z]{2,}$/)){
+
+  if(req.body.mail.trim()==""){
+    flagname=false;
+    errmsg+="Please enter email. ";
+  }else if(!req.body.mail.match(/^.+@[^\.].*\.[a-z]{2,}$/)){
   flagemail=false;
     errmsg+="Please enter valid email. ";
   }
-  if(!req.body.password.match(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{4,15}$/)){
+
+  if(req.body.password.trim()==""){
+    flagname=false;
+    errmsg+="Please enter password. ";
+  }else if(!req.body.password.match(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{4,15}$/)){
     flagpass=false;
     errmsg+="Password must be 4-15 char, at least one upper case, one lower case, one numeric and one special character from `@ # $ % ^ & *`. ";
   }
@@ -23,18 +32,25 @@ router.post("/register", (req, res) => {
     flagspace=false;
     errmsg+="Space is not allowed in password. "
   }
-  if(!req.body.pincode.match(/^[0-9]{6}$/)){
+
+  if(req.body.pincode.trim()==""){
+    flagname=false;
+    errmsg+="Please enter pincode. ";
+  }else if(!req.body.pincode.match(/^[0-9]{6}$/)){
     flagpin=false;
     errmsg+="Please enter 6 digit valid pincode. ";
   }
+
   if(req.body.country==""){
     flagcountry=false;
     errmsg+="Please select country. "
   }
+
   if(req.body.state==""){
     flagstate=false;
     errmsg+="Please select state. "
   }
+
   if(req.body.city==""){
     flagcity=false;
     errmsg+="Please select city. "
@@ -52,6 +68,7 @@ router.post("/register", (req, res) => {
     res.status("400").json({ msg:"Email or Mobile already exists "})
     else{
       let user = {
+        jbpId:req.body.jbpId,
         fullName: req.body.fullName,
         mail: req.body.mail,
         password: req.body.password,
@@ -62,7 +79,9 @@ router.post("/register", (req, res) => {
         country:req.body.country,
         state:req.body.state,
         city:req.body.city,
-        isActive:true
+        isActive:true,
+        createdDt:Date(),
+        updatedDt:Date()
       };
       bcrypt.hash(req.body.password, "$2a$10$9qeA/55oughPL85/246siu", function (err, hash) {
           user.password = hash;
@@ -111,15 +130,22 @@ router.post("/updateUser", upload.single("image"),(req, res) => {
       // console.log(data)
       var flagname,flagpin,flagcountry,flagstate,flagcity,errmsg="";
   
-  if(!req.body.fullName.match(/^[A-Za-z\\s]+$/)){
+  if(req.body.fullName.trim()==""){
+    flagname=false;
+    errmsg="Please enter fullname. ";
+  }else if(!req.body.fullName.match(/^[a-zA-Z ]*$/)){
     flagname=false;
     errmsg="Please enter alphabates only, in Name. ";
   }
- 
-  if(!req.body.pincode.match(/^[0-9]{6}$/)){
+  
+  if(req.body.pincode.trim()==""){
+    flagname=false;
+    errmsg="Please enter pincode. ";
+  }else if(!req.body.pincode.match(/^[0-9]{6}$/)){
     flagpin=false;
     errmsg+="Please enter 6 digit valid pincode. ";
   }
+
   if(req.body.country==""){
     flagcountry=false;
     errmsg+="Please select country. "
@@ -145,6 +171,7 @@ router.post("/updateUser", upload.single("image"),(req, res) => {
       data.country=req.body.country;
       data.state=req.body.state;
       data.city=req.body.city;
+      data.updatedDt=Date()
       data.save()
         .then((result) => {
           res.status("200").json({ msg: "Data Updated Successfully!" });
