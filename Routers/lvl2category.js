@@ -3,7 +3,7 @@ const router = express.Router();
 const lvl2Category=require("./../models/lvl2categories");
 router.post('/saveLvl2Category',(req,res)=>{
     let addlvl2Category={
-    name:req.body.name,
+    name:req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),
     categoryId:req.body.categoryId,
     visibility:true,
     createdDt:Date(),
@@ -39,7 +39,7 @@ router.get("/editLvl2Category/:id", (req, res) => {
     lvl2Category.findOne({_id: req.body.id})
       .then((data) => {
         data.categoryId=req.body.categoryId
-        data.name= req.body.name;
+        data.name= req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
         data.visibility=req.body.visibility;
         data.updatedDt=Date();
         data.save()

@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const upload=require('./../config/multer');
 
 router.post("/register", (req, res) => {
-  var flagname,flagemail,flagpass,flagspace,flagpin,flagcountry,aldreg,flagstate,flagcity,errmsg="";
+  var flagname,flagmobile,flagemail,flagpass,flagspace,flagpin,flagcountry,aldreg,flagstate,flagcity,errmsg="";
   if(req.body.fullName.trim()==""){
     flagname=false;
     errmsg="Please enter fullname. ";
@@ -15,7 +15,7 @@ router.post("/register", (req, res) => {
   }
 
   if(req.body.mail.trim()==""){
-    flagname=false;
+    flagemail=false;
     errmsg+="Please enter email. ";
   }else if(!req.body.mail.match(/^.+@[^\.].*\.[a-z]{2,}$/)){
   flagemail=false;
@@ -23,7 +23,7 @@ router.post("/register", (req, res) => {
   }
 
   if(req.body.password.trim()==""){
-    flagname=false;
+    flagpass=false;
     errmsg+="Please enter password. ";
   }else if(!req.body.password.match(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{4,15}$/)){
     flagpass=false;
@@ -34,8 +34,16 @@ router.post("/register", (req, res) => {
     errmsg+="Space is not allowed in password. "
   }
 
+  if(req.body.mobile.trim()==""){
+    flagmobile=false;
+    errmsg+="Please enter mobile no. ";
+  }else if(!req.body.mobile.match(/^[0-9]{10}$/)){
+    flagmobile=false;
+    errmsg+="Please enter 10 digit valid mobile no. ";
+  }
+
   if(req.body.pincode.trim()==""){
-    flagname=false;
+    flagpin=false;
     errmsg+="Please enter pincode. ";
   }else if(!req.body.pincode.match(/^[0-9]{6}$/)){
     flagpin=false;
@@ -57,7 +65,7 @@ router.post("/register", (req, res) => {
     errmsg+="Please select city. "
   }
  
-  if(flagname==false || flagemail==false || flagpass==false ||  flagspace==false || flagpin==false || flagcountry==false || flagstate==false || flagcity==false || aldreg==false){
+  if(flagname==false || flagemail==false || flagpass==false ||  flagspace==false || flagpin==false || flagcountry==false || flagstate==false || flagcity==false || aldreg==false || flagmobile==false){
     var msg=errmsg;
     errmsg="";
     res.status("400").json({ msg: msg });
@@ -70,7 +78,7 @@ router.post("/register", (req, res) => {
     else{
       let user = {
         jbpId:req.body.jbpId,
-        fullName: req.body.fullName,
+        fullName: req.body.fullName.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),
         mail: req.body.mail,
         password: req.body.password,
         mobile:req.body.mobile,
@@ -81,8 +89,8 @@ router.post("/register", (req, res) => {
         state:req.body.state,
         city:req.body.city,
         isActive:true,
-        createdDt:Date().toLocaleString('en-US', {timeZone: 'Asia/Kolkata'}),
-        updatedDt:Date().toLocaleString('en-US', {timeZone: 'Asia/Kolkata'})
+        createdDt:Date(),
+        updatedDt:Date()
       };
       bcrypt.hash(req.body.password, "$2a$10$9qeA/55oughPL85/246siu", function (err, hash) {
           user.password = hash;
@@ -97,7 +105,7 @@ router.post("/register", (req, res) => {
       });
     }
   })
-  .then((err)=>{
+  .catch((err)=>{
     console.log(err)
   })
     
@@ -107,7 +115,9 @@ router.post("/register", (req, res) => {
 router.get('/viewuser',(req,res)=>{
   User.find({})
   .then((result)=>{
+    // console.log(result[2].createdDt.toLocaleString('en-US', {timeZone: 'Asia/Kolkata'}))
       res.status(200).json({result})
+      
   })
   .catch((err)=>{
       console.log(err)
@@ -141,7 +151,7 @@ router.post("/updateUser", upload.single("image"),(req, res) => {
   }
   
   if(req.body.pincode.trim()==""){
-    flagname=false;
+    flagpin=false;
     errmsg="Please enter pincode. ";
   }else if(!req.body.pincode.match(/^[0-9]{6}$/)){
     flagpin=false;
@@ -165,7 +175,7 @@ router.post("/updateUser", upload.single("image"),(req, res) => {
     errmsg="";
     res.status("400").json({ msg: msg });}
     else{
-      data.fullName= req.body.fullName;
+      data.fullName= req.body.fullName.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
       // data.mobile=req.body.mobile;
       data.Image=req.file.filename;
       data.address=req.body.address;

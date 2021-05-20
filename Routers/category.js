@@ -4,7 +4,7 @@ const Category=require("./../models/categories");
 const upload=require('./../config/multer')
 router.post('/saveCategory',upload.single("image"),(req,res)=>{
     let addCategory={
-    name:req.body.name,
+    name:req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),
     Image:req.file.filename,
     visibility:true,
     createdDt:Date(),
@@ -41,7 +41,7 @@ router.get('/viewCategory',(req,res)=>{
   router.post("/updateCategory", upload.single("image"),(req, res) => {
     Category.findOne({_id: req.body.id})
       .then((data) => {
-        data.name= req.body.name;
+        data.name= req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
         data.Image=req.file.filename;
         data.visibility=req.body.visibility;
         data.updatedDt=Date();

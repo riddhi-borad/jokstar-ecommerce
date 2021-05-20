@@ -7,11 +7,6 @@ var newschema=new mongoose.Schema({
         trim:true,
         required:true
     },
-    lvl2catId:{
-        type:String,
-        trim:true,
-        required:true,
-    },
     categoryId:{
         type:Schema.Types.ObjectId,
         ref:"categories",

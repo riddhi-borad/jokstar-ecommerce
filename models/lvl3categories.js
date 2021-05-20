@@ -2,11 +2,6 @@ const mongoose=require('mongoose');
 const Schema=mongoose.Schema
 const timeZone = require('mongoose-timezone');
 var newschema=new mongoose.Schema({
-    lvl3catId:{
-        type:String,
-        trim:true,
-        required:true,
-    },
     name:{
         type:String,
         trim:true,
