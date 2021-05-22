@@ -3,7 +3,7 @@ const DIR="./public";
 
 const storage=multer.diskStorage({
     destination:(req, res, cb)=>{
-        cb(null,DIR);
+        cb(null,"./public");
     },
     filename:(req,file,cb)=>{
         const filename=file.originalname.toLowerCase().split(" ").join("-");
