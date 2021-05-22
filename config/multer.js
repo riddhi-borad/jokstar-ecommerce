@@ -4,7 +4,7 @@ const path = require('path');
 
 const storage=multer.diskStorage({
     destination:(req, res, cb)=>{
-        cb(null, "../public/");
+        cb(null, "./public");
     },
     filename:(req,file,cb)=>{
         const filename=file.originalname.toLowerCase().split(" ").join("-");
