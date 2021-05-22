@@ -1,8 +1,8 @@
 
 const express=require('express');
 const app=express();
-// app.use(express.static(__dirname+"/public"));
-app.use('/static', express.static(path.join(__dirname, 'public')))
+app.use(express.static(__dirname+"/public"));
+// app.use('/static', express.static(path.join(__dirname, 'public')))
 var cors=require('cors');
 app.use(cors({credentials: true,methods: "GET, POST"}));
 
