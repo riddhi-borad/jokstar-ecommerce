@@ -5,7 +5,7 @@ const upload=require('./../config/multer')
 router.post('/saveproduct',upload.array("image",4),(req,res)=>{
     const reqFiles = [];
     // const url = req.protocol + '://' + req.get('host')
-    console.log(req.files)
+    // console.log(req.files)
     for (var i = 0; i < req.files.length; i++) {
         reqFiles.push(req.files[i].filename)
     }
@@ -23,7 +23,7 @@ router.post('/saveproduct',upload.array("image",4),(req,res)=>{
     description:req.body.description,
     returnable:req.body.returnable,
     refundable:req.body.refundable,
-    image:reqFiles,
+    images:reqFiles,
     tnc:req.body.tnc,
     visibility:true,
     createdDt:Date(),
@@ -39,9 +39,10 @@ router.post('/saveproduct',upload.array("image",4),(req,res)=>{
 
 router.get('/viewprod',(req,res)=>{
     Product.find({ })
-    .populate('categories')
-    .populate('vlv2categories')
-    .populate('vlv3categories')
+    .populate('categoryId',{name:1})
+    .populate('lvl2catId',{name:1})
+    .populate('lvl3catId',{name:1})
+    .populate('user',{_id:1,jbpId:1,fullName:1})
     .then((result)=>{
         res.status(200).json(result)
     })
@@ -49,4 +50,28 @@ router.get('/viewprod',(req,res)=>{
         console.log(err)
     })
 })
+
+router.get("/editProd/:id", (req, res) => {
+    Product.findOne({ _id: req.params.id })
+      .then((result) => {
+        res.status("200").json({result});
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
+router.get("/prodDetail/:id", (req, res) => {
+    Product.findOne({ _id: req.params.id })
+    .populate('categories',{name:1})
+    .populate('lvl2categories',{name:1})
+    .populate('lvl3categories',{name:1})
+      .then((result) => {
+        res.status("200").json({result});
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
 module.exports = router;

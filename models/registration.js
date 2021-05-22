@@ -9,17 +9,17 @@ var newschema=new mongoose.Schema({
     fullName:{
         type:String,
         trim:true,
-        required:true,
+        // required:true,
     },
     mail:{
         type:String,
         trim:true,
-        required:true,
+        // required:true,
     },
     password:{
         type:String,
         trim:true,
-        required:true
+        // required:true
     },
     mobile:{
         type:Number,
@@ -29,7 +29,7 @@ var newschema=new mongoose.Schema({
     userType:{
         type:String,
         trim:true,
-        required:true,
+        // required:true,
     },
     Image:{
         type:String,
@@ -38,27 +38,27 @@ var newschema=new mongoose.Schema({
     address:{
         type:String,
         trim:true,
-        required:true,
+        // required:true,
     },
     pincode:{
         type:Number,
         trim:true,
-        required:true
+        // required:true
     },
     country:{
         type:String,
         trim:true,
-        required:true
+        // required:true
     },
     state:{
         type:String,
         trim:true,
-        required:true
+        // required:true
     },
     city:{
         type:String,
         trim:true,
-        required:true
+        // required:true
     },
     isActive:{
         type:Boolean,

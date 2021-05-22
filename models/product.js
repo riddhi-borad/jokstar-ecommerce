@@ -1,5 +1,6 @@
 const mongoose=require('mongoose');
 const Schema=mongoose.Schema
+const timeZone = require('mongoose-timezone');
 var newschema=new mongoose.Schema({
    jbpId:{
         type:String,
@@ -76,8 +77,18 @@ var newschema=new mongoose.Schema({
     visibility:{
         type:Boolean,
         required:true
+    },
+    createdDt:{
+        type:Date,
+        required:true
+    },
+    updatedDt:{
+        type:Date,
+        required:true
     }
 },
+
+
 // custome column reference
 {
     toObject: {virtuals:true},
@@ -91,4 +102,5 @@ newschema.virtual('user', {
     foreignField: 'jbpId',
     justOne: true // for many-to-1 relationships
   });
+  newschema.plugin(timeZone, { paths: ['createdDt', 'updatedDt'] });
 module.exports=Product=mongoose.model('products',newschema)

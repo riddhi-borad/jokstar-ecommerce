@@ -77,4 +77,16 @@ router.get('/viewLvl3Category',(req,res)=>{
       console.log(err);
     })
   })
+
+  router.get("/lvl2catwiselvl3cat/:id", (req, res) => {
+    lvl3Category.find({ lvl2catId: req.params.id })
+    .populate("categoryId",{name:1})
+    .populate("lvl2catId",{name:1})
+      .then((result) => {
+        res.status("200").json({result});
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 module.exports = router;

@@ -128,7 +128,6 @@ router.get("/editUser/:id", (req, res) => {
   User.findOne({ _id: req.params.id },{mail:0,password:0,mobile:0,isActive:0})
     .then((result) => {
       res.status("200").json({result});
-      // .toLocaleString('en-US', {timeZone: 'Asia/Kolkata'});
     })
     .catch((err) => {
       console.log(err);

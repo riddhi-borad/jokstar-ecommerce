@@ -9,6 +9,8 @@ let mongoose=require('mongoose');
     username='dev';
     password='dev123';
     dbName='Login';
+    // mongoDBUri=`mongodb+srv://${username}:${password}@cluster0.nbxam.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+    // mongodb+srv://jokester:<password>@cluster0.1lgec.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
     mongoDBUri=`mongodb+srv://${username}:${password}@cluster0.nbxam.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 mongoose.connect(mongoDBUri,{
     useNewUrlParser: true,

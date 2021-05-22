@@ -33,4 +33,32 @@ router.post("/login", (req, res) => {
       });
     });
 });
+
+router.post("/UserCheck", (req, res) => {
+  User.findOne({ mobile: req.body.mobile})
+    .then((result) => {
+      if(result == null){
+        let user = {
+          jbpId:req.body.jbpId,
+          mobile:req.body.mobile,
+          isActive:true,
+          createdDt:Date(),
+          updatedDt:Date()
+        }
+        new User(user)
+        .save()
+            .then((response) => {
+              res.status("200").json({userId: response._id });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+      }else{
+      res.status("200").json({userId: result._id });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 module.exports = router;
