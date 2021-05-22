@@ -1,9 +1,10 @@
 const multer=require("multer");
-const DIR="./public";
+// const DIR="./public";
+const path = require('path');
 
 const storage=multer.diskStorage({
     destination:(req, res, cb)=>{
-        cb(null,"./public");
+        cb(null, path.join(__dirname, '/public/'));
     },
     filename:(req,file,cb)=>{
         const filename=file.originalname.toLowerCase().split(" ").join("-");
