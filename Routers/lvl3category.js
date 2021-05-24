@@ -30,6 +30,8 @@ router.get('/viewLvl3Category',(req,res)=>{
 
   router.get("/editLvl3Category/:id", (req, res) => {
     lvl3Category.findOne({ _id: req.params.id })
+    .populate("categoryId",{name:1})
+    .populate("lvl2catId",{name:1})
       .then((result) => {
         res.status("200").json({result});
       })
@@ -70,7 +72,7 @@ router.get('/viewLvl3Category',(req,res)=>{
       }
       data.updatedDt=Date()
       data.save()
-        .then(response=>{ res.status("200").json({msg:true}) })
+        .then(response=>{ res.status("200").json({msg:"Change visibility Successfully!"}) })
         .catch(err=>{ console.log(err) })
     })
     .catch((err)=>{
@@ -78,7 +80,7 @@ router.get('/viewLvl3Category',(req,res)=>{
     })
   })
 
-  router.get("/lvl2catwiselvl3cat/:id", (req, res) => {
+  router.get("/L2catWiseL3cat/:id", (req, res) => {
     lvl3Category.find({ lvl2catId: req.params.id })
     .populate("categoryId",{name:1})
     .populate("lvl2catId",{name:1})

@@ -39,10 +39,15 @@ router.get('/viewCategory',(req,res)=>{
   });
 
   router.post("/updateCategory", upload.single("image"),(req, res) => {
+    if(req.file){
+      img=req.file.filename
+  }else{
+      img=req.body.image
+  }
     Category.findOne({_id: req.body.id})
       .then((data) => {
         data.name= req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
-        data.Image=req.file.filename;
+        data.Image=img;
         data.visibility=req.body.visibility;
         data.updatedDt=Date();
         data.save()
@@ -69,7 +74,7 @@ router.get('/viewCategory',(req,res)=>{
       }
       data.updatedDt=Date()
       data.save()
-        .then(response=>{ res.status("200").json({msg:true}) })
+        .then(response=>{ res.status("200").json({msg:"Change visibility Successfully!"}) })
         .catch(err=>{ console.log(err) })
     })
     .catch((err)=>{
