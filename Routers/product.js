@@ -7,31 +7,41 @@ router.post('/saveproduct',upload.array("image",4),(req,res)=>{
     for (var i = 0; i < req.files.length; i++) {
         reqFiles.push(req.files[i].filename)
     }
-    let addproduct={
-    jbpId:req.body.jbpId,
-    name:req.body.name,
-    categoryId:req.body.categoryId,
-    lvl2catId:req.body.lvl2catId,
-    lvl3catId:req.body.lvl3catId,
-    brand:req.body.brand,
-    price:req.body.price,
-    availableStock:req.body.availableStock,
-    size:req.body.size,
-    pattern:req.body.pattern,
-    description:req.body.description,
-    returnable:req.body.returnable,
-    refundable:req.body.refundable,
-    images:reqFiles,
-    tnc:req.body.tnc,
-    visibility:true,
-    createdDt:Date(),
-    updatedDt:Date()
-    }
-    new Product(addproduct).save()
-    .then(()=>{
-        res.status(200).json({msg:"product inserted !"});
-    }).catch((err)=>{
-        console.log(err);
+    Product.findOne({jbpId:req.body.jbpId,name:req.body.name,categoryId:req.body.categoryId, lvl2catId:req.body.lvl2catId,lvl3catId:req.body.lvl3catId,brand:req.body.brand,price:req.body.price,size:req.body.size,pattern:req.body.pattern,description:req.body.description})
+    .then((response)=>{
+      if(response)
+      res.status("400").json({ msg:"Product already exists!! "})
+      else{
+        let addproduct={
+        jbpId:req.body.jbpId,
+        name:req.body.name,
+        categoryId:req.body.categoryId,
+        lvl2catId:req.body.lvl2catId,
+        lvl3catId:req.body.lvl3catId,
+        brand:req.body.brand,
+        price:req.body.price,
+        availableStock:req.body.availableStock,
+        size:req.body.size,
+        pattern:req.body.pattern,
+        description:req.body.description,
+        returnable:req.body.returnable,
+        refundable:req.body.refundable,
+        images:reqFiles,
+        tnc:req.body.tnc,
+        visibility:true,
+        createdDt:Date(),
+        updatedDt:Date()
+        }
+        new Product(addproduct).save()
+        .then(()=>{
+            res.status(200).json({msg:"product inserted !"});
+        }).catch((err)=>{
+            console.log(err);
+        })
+      }
+    })
+    .catch((err)=>{
+      console.log(err)
     })
 })
 

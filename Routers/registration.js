@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("../models/registration");
 const bcrypt = require("bcryptjs");
 const upload=require('./../config/multer');
-
+const Product=require("./../models/product");
 router.post("/register", (req, res) => {
   var flagname,flagmobile,flagemail,flagpass,flagspace,flagpin,flagcountry,aldreg,flagstate,flagcity,errmsg="";
   if(req.body.fullName.trim()==""){
@@ -214,4 +214,19 @@ router.get('/deleteUser/:id',(req,res)=>{
     console.log(err);
   })
 })
+
+router.get("/shopkeeperProd/:id", (req, res) => {
+  Product.find({ jbpId: req.params.id })
+  .populate('categories',{name:1})
+  .populate('lvl2categories',{name:1})
+  .populate('lvl3categories',{name:1})
+  .populate("user",{_id:1,fullName:1})
+    .then((result) => {
+      res.status("200").json({result});
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 module.exports = router;
