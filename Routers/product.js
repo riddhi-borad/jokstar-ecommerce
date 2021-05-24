@@ -40,9 +40,9 @@ router.get('/viewprod',(req,res)=>{
     .populate('categoryId',{name:1})
     .populate('lvl2catId',{name:1})
     .populate('lvl3catId',{name:1})
-    .populate('user',{_id:1,jbpId:1,fullName:1})
+    .populate('user',{_id:1,fullName:1})
     .then((result)=>{
-        res.status(200).json(result)
+        res.status(200).json({result})
     })
     .catch((err)=>{
         console.log(err)
