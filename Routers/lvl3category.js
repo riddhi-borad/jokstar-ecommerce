@@ -20,6 +20,8 @@ new lvl3Category(addlvl3Category).save()
 
 router.get('/viewLvl3Category',(req,res)=>{
     lvl3Category.find({})
+    .populate("categoryId",{name:1})
+    .populate("lvl2catId",{name:1})
     .then((result)=>{
         res.status(200).json({result})
     })
