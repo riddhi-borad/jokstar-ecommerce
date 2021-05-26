@@ -85,6 +85,14 @@ var newschema=new mongoose.Schema({
     updatedDt:{
         type:Date,
         required:true
+    },
+    discount:{
+        type:Number,
+        trim:true
+    },
+    discountPrice:{
+        type:Number,
+        trim:true
     }
 },
 
