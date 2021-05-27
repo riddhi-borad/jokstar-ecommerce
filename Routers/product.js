@@ -7,9 +7,15 @@ router.post('/saveproduct',upload.array("image",4),(req,res)=>{
     for (var i = 0; i < req.files.length; i++) {
         reqFiles.push(req.files[i].filename)
     }
-    var dis=Number(req.body.price)*Number(req.body.discount)
-    var discount=Number(dis)/Number(100)
-    console.log(discount)
+    var dis,discount;
+    if(req.body.discountType=="rs")
+    {
+    discount=Number(req.body.discount)
+    }else if(req.body.discountType=="%"){
+    dis=Number(req.body.price)*Number(req.body.discount)
+    discount=Number(dis)/Number(100)
+    }
+    
     Product.findOne({jbpId:req.body.jbpId,name:req.body.name,categoryId:req.body.categoryId, lvl2catId:req.body.lvl2catId,lvl3catId:req.body.lvl3catId,brand:req.body.brand,price:req.body.price,size:req.body.size,pattern:req.body.pattern,description:req.body.description})
     .then((response)=>{
       if(response)
@@ -34,6 +40,7 @@ router.post('/saveproduct',upload.array("image",4),(req,res)=>{
         tnc:req.body.tnc,
         visibility:true,
         discount:req.body.discount,
+        discountType:req.body.discountType,
         createdDt:Date(),
         updatedDt:Date()
         }

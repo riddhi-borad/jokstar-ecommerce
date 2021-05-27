@@ -93,6 +93,10 @@ var newschema=new mongoose.Schema({
     discountPrice:{
         type:Number,
         trim:true
+    },
+    discountType:{
+        type:String,
+        trim:true
     }
 },
 

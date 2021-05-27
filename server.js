@@ -45,4 +45,5 @@ const order=require("./Routers/order");
 const banner=require("./Routers/banner");
 const state=require("./Routers/state");
 const city=require("./Routers/city");
-app.use('/',login,registration,category,lvl2category,lvl3category,product,admin,order,banner,state,city,cart);
+const wish=require("./Routers/wish")
+app.use('/',login,registration,category,lvl2category,lvl3category,product,admin,order,banner,state,city,cart,wish);
