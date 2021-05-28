@@ -6,7 +6,6 @@ router.post("/addWishList", (req, res) => {
     let addWish = {
         productId: req.body.productId,
         userId: req.body.userId,
-        // quantity: req.body.quantity,
       };
     new Wish(addWish)
         .save()

@@ -86,9 +86,9 @@ router.get("/editProd/:id", (req, res) => {
 
 router.get("/prodDetail/:id", (req, res) => {
     Product.findOne({ _id: req.params.id })
-    .populate('categories',{name:1})
-    .populate('lvl2categories',{name:1})
-    .populate('lvl3categories',{name:1})
+    .populate('categoryId',{name:1})
+    .populate('lvl2catId',{name:1})
+    .populate('lvl3catId',{name:1})
       .then((result) => {
         res.status("200").json({result});
       })
