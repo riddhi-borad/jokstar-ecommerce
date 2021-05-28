@@ -71,18 +71,18 @@ router.get('/viewprod',(req,res)=>{
     })
 })
 
-router.get("/editProd/:id", (req, res) => {
-    Product.findOne({ _id: req.params.id })
-    .populate("categoryId",{name:1})
-    .populate("lvl2catId",{name:1})
-    .populate("lvl3catId",{name:1})
-      .then((result) => {
-        res.status("200").json({result});
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
+// router.get("/editProd/:id", (req, res) => {
+//     Product.findOne({ _id: req.params.id })
+//     .populate("categoryId",{name:1})
+//     .populate("lvl2catId",{name:1})
+//     .populate("lvl3catId",{name:1})
+//       .then((result) => {
+//         res.status("200").json({result});
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   });
 
 router.get("/prodDetail/:id", (req, res) => {
     Product.findOne({ _id: req.params.id })
@@ -102,6 +102,14 @@ router.get("/prodDetail/:id", (req, res) => {
     for (var i = 0; i < req.files.length; i++) {
         reqFiles.push(req.files[i].filename)
     }
+    var dis,discount;
+    if(req.body.discountType=="rs")
+    {
+    discount=Number(req.body.discount)
+    }else if(req.body.discountType=="%"){
+    dis=Number(req.body.price)*Number(req.body.discount)
+    discount=Number(dis)/Number(100)
+    }
     Product.findOne({_id: req.body.id})
       .then((data) => {
         data.name=req.body.name;
@@ -118,6 +126,9 @@ router.get("/prodDetail/:id", (req, res) => {
         data.refundable=req.body.refundable;
         data.images=reqFiles;
         data.tnc=req.body.tnc;
+        data.discountPrice=Number(req.body.price)-Number(discount);
+        data.discount=req.body.discount;
+        data.discountType=req.body.discountType;
         data.visibility=req.body.visibility;
         data.updatedDt=Date();
         data.save()
