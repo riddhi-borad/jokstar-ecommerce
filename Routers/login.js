@@ -14,11 +14,18 @@ router.post("/login", (req, res) => {
         } 
         else
         { const payload = {
-                name: response.name,
-                mail: response.mail,
-                userType: response.userType,
                 id: response._id,
-                jbpId:response.jbpId
+                jbpId:response.jbpId,
+                name: response.fullName,
+                mail: response.mail,
+                mobile:response.mobile,
+                userType: response.userType,
+                address:response.address,
+                pincode:response.pincode,
+                country:response.country,
+                state:response.state,
+                city:response.city,
+                isActive:response.isActive
           };
             jwt.sign(payload, (privateKey = "user"), (err, usertoken) => {
                 res.json({
