@@ -1,21 +1,35 @@
 const express = require("express");
 const router = express.Router();
 const lvl3Category=require("./../models/lvl3categories");
-router.post('/saveLvl3Category',(req,res)=>{
-    let addlvl3Category={
-    name:req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),
-    categoryId:req.body.categoryId,
-    lvl2catId:req.body.lvl2catId,
-    visibility:true,
-    createdDt:Date(),
-    updatedDt:Date()
-}
-new lvl3Category(addlvl3Category).save()
-    .then(()=>{
-        res.status(200).json({msg:"lvl3Category inserted !"});
+router.post('/saveLvl3Category',async (req,res)=>{
+  for(var i=0;i<req.body.subsubcat.length;i++){
+    await lvl3Category.findOne({name:req.body.subsubcat[i].name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),categoryId:req.body.subsubcat[i].categoryId,lvl2catId:req.body.subsubcat[i].lvl2catId})
+    .then((response)=>{
+      if(response){
+        {res.status("400").json({ msg:"SubSubCategory already exists!! "})}
+      }
+      else{
+        let addlvl3Category={
+          name:req.body.subsubcat[i].name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),
+          categoryId:req.body.subsubcat[i].categoryId,
+          lvl2catId:req.body.subsubcat[i].lvl2catId,
+          visibility:true,
+          createdDt:Date(),
+          updatedDt:Date()
+      }
+      new lvl3Category(addlvl3Category).save()
+          .then(()=>{
+              
+          }).catch((err)=>{
+              console.log(err);
+          })
+          res.status(200).json({msg:"lvl3Category inserted !"});
+      }
     }).catch((err)=>{
-        console.log(err);
+      console.log(err)
     })
+    
+  }
 })
 
 router.get('/viewLvl3Category',(req,res)=>{

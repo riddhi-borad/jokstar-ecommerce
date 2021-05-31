@@ -2,19 +2,27 @@ const express = require("express");
 const router = express.Router();
 const Category=require("./../models/categories");
 const upload=require('./../config/multer')
-router.post('/saveCategory',upload.single("image"),(req,res)=>{
-  let addCategory={
-    name:req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),
-    Image:req.file.filename,
-    visibility:true,
-    createdDt:Date(),
-    updatedDt:Date()
-  }
-  new Category(addCategory).save()
-  .then(()=>{
-      res.status(200).json({msg:"category inserted !"});
-  }).catch((err)=>{
-      console.log(err);
+router.post('/saveCategory',upload.single("image"),async (req,res)=>{
+  // console.log(req)
+   await Category.findOne({name:req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase())})
+  .then((response)=>{
+    if(response)
+    {res.status(400).json({msg:"Category already exists!! "})}
+    else{
+      let addCategory={
+        name:req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),
+        Image:req.file.filename,
+        visibility:true,
+        createdDt:Date(),
+        updatedDt:Date()
+      }
+      new Category(addCategory).save()
+      .then(()=>{
+          res.status(200).json({msg:"category inserted !"});
+      }).catch((err)=>{
+          console.log(err);
+      })
+    }
   })
 })
 
