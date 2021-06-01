@@ -97,11 +97,14 @@ router.get("/prodDetail/:id", (req, res) => {
       });
   });
 
+
   router.post("/updateProd",upload.array("image",4),(req, res) => {
     const reqFiles = [];
-    for (var i = 0; i < req.files.length; i++) {
+    if (req.files.length > 0)
+    {for (var i = 0; i < req.files.length; i++) {
         reqFiles.push(req.files[i].filename)
-    }
+    }}
+    let reqFiles1 = reqFiles.concat(req.body.preImg);
     var dis,discount;
     if(req.body.discountType=="rs")
     {
@@ -124,7 +127,7 @@ router.get("/prodDetail/:id", (req, res) => {
         data.description=req.body.description;
         data.returnable=req.body.returnable;
         data.refundable=req.body.refundable;
-        data.images=reqFiles;
+        data.images=reqFiles1;
         data.tnc=req.body.tnc;
         data.discountPrice=Number(req.body.price)-Number(discount);
         data.discount=req.body.discount;
@@ -143,6 +146,53 @@ router.get("/prodDetail/:id", (req, res) => {
         console.log(err);
       });
   });
+
+  // router.post("/updateProd",upload.array("image",4),(req, res) => {
+  //   const reqFiles = [];
+  //   for (var i = 0; i < req.files.length; i++) {
+  //       reqFiles.push(req.files[i].filename)
+  //   }
+  //   var dis,discount;
+  //   if(req.body.discountType=="rs")
+  //   {
+  //   discount=Number(req.body.discount)
+  //   }else if(req.body.discountType=="%"){
+  //   dis=Number(req.body.price)*Number(req.body.discount)
+  //   discount=Number(dis)/Number(100)
+  //   }
+  //   Product.findOne({_id: req.body.id})
+  //     .then((data) => {
+  //       data.name=req.body.name;
+  //       data.categoryId=req.body.categoryId;
+  //       data.lvl2catId=req.body.lvl2catId;
+  //       data.lvl3catId=req.body.lvl3catId;
+  //       data.brand=req.body.brand;
+  //       data.price=req.body.price;
+  //       data.availableStock=req.body.availableStock;
+  //       data.size=req.body.size;
+  //       data.pattern=req.body.pattern;
+  //       data.description=req.body.description;
+  //       data.returnable=req.body.returnable;
+  //       data.refundable=req.body.refundable;
+  //       data.images=reqFiles;
+  //       data.tnc=req.body.tnc;
+  //       data.discountPrice=Number(req.body.price)-Number(discount);
+  //       data.discount=req.body.discount;
+  //       data.discountType=req.body.discountType;
+  //       data.visibility=req.body.visibility;
+  //       data.updatedDt=Date();
+  //       data.save()
+  //         .then((result) => {
+  //           res.status("200").json({ msg: "Data Updated Successfully!" });
+  //         })
+  //         .catch((err) => {
+  //           console.log(err);
+  //         });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // });
 
   router.get('/deleteProd/:id',(req,res)=>{
     Product.findOne({_id:req.params.id})

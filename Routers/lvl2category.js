@@ -3,8 +3,8 @@ const router = express.Router();
 const lvl2Category=require("./../models/lvl2categories");
 router.post('/saveLvl2Category',async (req,res)=>{
   var flag=[]
-for(var i=0;i<req.body.subcategory.length;i++){
- await lvl2Category.findOne({name:req.body.subcategory[i].name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),categoryId:req.body.subcategory[i].categoryId})
+// for(var i=0;i<req.body.subcategory.length;i++){
+ await lvl2Category.findOne({name:req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),categoryId:req.body.categoryId})
   .then((response)=>{
     if(response)
     {
@@ -12,8 +12,8 @@ for(var i=0;i<req.body.subcategory.length;i++){
     }
     else{
       let addlvl2Category={
-      name:req.body.subcategory[i].name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),
-      categoryId:req.body.subcategory[i].categoryId,
+      name:req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),
+      categoryId:req.body.categoryId,
       visibility:true,
       createdDt:Date(),
       updatedDt:Date()
@@ -30,7 +30,7 @@ for(var i=0;i<req.body.subcategory.length;i++){
   .catch((err)=>{
     console.log(err)
   })
-}
+// }
 
 })
 

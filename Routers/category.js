@@ -82,7 +82,7 @@ router.get('/viewCategory',(req,res)=>{
       }
       data.updatedDt=Date()
       data.save()
-        .then(response=>{ res.status("200").json({msg:"Change visibility Successfully!"}) })
+        .then(response=>{ res.status("200").json({msg:"true"}) })
         .catch(err=>{ console.log(err) })
     })
     .catch((err)=>{
