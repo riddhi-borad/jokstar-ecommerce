@@ -136,6 +136,11 @@ router.get("/editUser/:id", (req, res) => {
 
 router.post("/updateUser", upload.single("image"),(req, res) => {
   // console.log(req)
+  if(req.file){
+    img=req.file.filename
+    }else{
+    img=req.body.image
+    }
   User.findOne({_id: req.body.id})
     .then((data) => {
       // console.log(data)
@@ -176,7 +181,7 @@ router.post("/updateUser", upload.single("image"),(req, res) => {
     else{
       data.fullName= req.body.fullName.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
       // data.mobile=req.body.mobile;
-      data.Image=req.file.filename;
+      data.Image=img;
       data.address=req.body.address;
       data.pincode=req.body.pincode;
       data.country=req.body.country;

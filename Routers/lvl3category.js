@@ -6,7 +6,7 @@ router.post('/saveLvl3Category',async (req,res)=>{
     await lvl3Category.findOne({name:req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),categoryId:req.body.categoryId,lvl2catId:req.body.lvl2catId})
     .then((response)=>{
       if(response){
-        {res.status("400").json({ msg:"SubSubCategory already exists!! "})}
+        {res.status(400).json({ msg:"SubSubCategory already exists!! "})}
       }
       else{
         let addlvl3Category={

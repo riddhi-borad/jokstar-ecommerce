@@ -48,6 +48,7 @@ router.get('/viewLvl2Category',(req,res)=>{
 
 router.get("/editLvl2Category/:id", (req, res) => {
     lvl2Category.findOne({ _id: req.params.id })
+    
       .then((result) => {
         res.status("200").json({result});
       })

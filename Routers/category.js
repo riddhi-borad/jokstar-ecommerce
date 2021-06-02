@@ -46,13 +46,13 @@ router.get('/viewCategory',(req,res)=>{
       });
   });
 
-  router.post("/updateCategory", upload.single("image"),(req, res) => {
+  router.post("/updateCategory",  upload.single("image"),(req, res) => {
     if(req.file){
       img=req.file.filename
   }else{
       img=req.body.image
   }
-    Category.findOne({_id: req.body.id})
+   Category.findOne({_id: req.body.id})
       .then((data) => {
         data.name= req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
         data.Image=img;
@@ -60,7 +60,7 @@ router.get('/viewCategory',(req,res)=>{
         data.updatedDt=Date();
         data.save()
           .then((result) => {
-            res.status("200").json({ msg: "Data Updated Successfully!" });
+            res.status(200).json({ msg: "Data Updated Successfully!" });
           })
           .catch((err) => {
             console.log(err);
