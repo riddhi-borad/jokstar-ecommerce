@@ -8,7 +8,7 @@ router.post('/saveLvl2Category',async (req,res)=>{
   .then((response)=>{
     if(response)
     {
-      res.status(400).json({ msg:"SubCategory already exists!! "})
+      res.status(400).json({ msg:req.body.name})
     }
     else{
       let addlvl2Category={
@@ -48,7 +48,7 @@ router.get('/viewLvl2Category',(req,res)=>{
 
 router.get("/editLvl2Category/:id", (req, res) => {
     lvl2Category.findOne({ _id: req.params.id })
-    
+    .populate("categoryId")
       .then((result) => {
         res.status("200").json({result});
       })
@@ -65,7 +65,7 @@ router.get("/editLvl2Category/:id", (req, res) => {
         data.updatedDt=Date();
         data.save()
           .then((result) => {
-            res.status("200").json({ msg: "Data Updated Successfully!" });
+            res.status("200").json({ msg: "Sub-Category Updated Successfully!!" });
           })
           .catch((err) => {
             console.log(err);

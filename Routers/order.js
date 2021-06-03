@@ -46,4 +46,15 @@ router.post('/placeOrder',(req,res)=>{
         console.log(err)
     })
 })
+router.get("/shopkeeperorder/:id", (req, res) => {
+    Order.find({jbpId: req.params.id })
+    .populate('userId', {fullName:1})
+    .populate("user",{_id:1,fullName:1})
+    .then((result) => {
+      res.status("200").json({result});
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+})
 module.exports = router;

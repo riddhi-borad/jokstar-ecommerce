@@ -7,7 +7,7 @@ router.post('/saveCategory',upload.single("image"),async (req,res)=>{
    await Category.findOne({name:req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase())})
   .then((response)=>{
     if(response)
-    {res.status(400).json({msg:"Category already exists!! "})}
+    {res.status(400).json({msg:req.body.name})}
     else{
       let addCategory={
         name:req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),
@@ -60,7 +60,7 @@ router.get('/viewCategory',(req,res)=>{
         data.updatedDt=Date();
         data.save()
           .then((result) => {
-            res.status(200).json({ msg: "Data Updated Successfully!" });
+            res.status(200).json({ msg: "Category Updated Successfully!!" });
           })
           .catch((err) => {
             console.log(err);

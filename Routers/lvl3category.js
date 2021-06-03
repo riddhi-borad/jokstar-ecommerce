@@ -6,7 +6,7 @@ router.post('/saveLvl3Category',async (req,res)=>{
     await lvl3Category.findOne({name:req.body.name.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),categoryId:req.body.categoryId,lvl2catId:req.body.lvl2catId})
     .then((response)=>{
       if(response){
-        {res.status(400).json({ msg:"SubSubCategory already exists!! "})}
+        {res.status(400).json({ msg:req.body.name})}
       }
       else{
         let addlvl3Category={
@@ -67,7 +67,7 @@ router.get('/viewLvl3Category',(req,res)=>{
         data.updatedDt=Date();
         data.save()
           .then((result) => {
-            res.status("200").json({ msg: "Data Updated Successfully!" });
+            res.status("200").json({ msg: "SubSub-category Updated Successfully!" });
           })
           .catch((err) => {
             console.log(err);
