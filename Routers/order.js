@@ -9,6 +9,14 @@ router.post('/placeOrder',(req,res)=>{
     .populate("productId")
     .then((resp)=>{
         for(var i in resp){
+            var price;
+            if(resp[i].productId.discountPrice){
+                price=resp[i].productId.discountPrice
+            }
+            else
+            {
+                price=resp[i].productId.price
+            }
             let addorder={
                 orderId:orderId,
                 userId:resp[i].userId,
@@ -23,7 +31,7 @@ router.post('/placeOrder',(req,res)=>{
                 mobile:req.body.mobile,
                 status:"Ordered",
                 paymentMode:"Cash On Delivery",
-                amount:Number(resp[i].productId.discountPrice)*Number(resp[i].quantity),
+                amount:Number(price)*Number(resp[i].quantity),
                 discountPrice:resp[i].productId.discountPrice,
                 discount:resp[i].productId.discount,
                 discountType:resp[i].productId.discountType,
