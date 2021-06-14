@@ -144,25 +144,22 @@ router.get("/prodDetail/:id", async(req, res) => {
     .populate('lvl2catId',{name:1})
     .populate('lvl3catId',{name:1})
       .then(async(response) => {
-        for (var i = 0; i < response.length; i++) {
-          await Quantity.find({ prodId: response[i]._id })
+          await Quantity.find({ prodId: response._id })
             .then((result) => {
               var obj = {
-                prod: response[i],
+                prod: response,
                 quantity: result,
               };
               arr.push(obj);
             })
             .catch((err) => {
               console.log(err);
-            });
-        }
-       
+            });       
       })
       .catch((err) => {
         console.log(err);
       });
-      res.status("200").json({arr});
+      res.status("200").json(arr);
   });
 
 
