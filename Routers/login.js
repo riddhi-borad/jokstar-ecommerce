@@ -46,8 +46,9 @@ router.post("/UserCheck", (req, res) => {
     .then((result) => {
       if(result == null){
         let user = {
-          jbpId:req.body.jbpId,
+          // jbpId:req.body.jbpId,
           mobile:req.body.mobile,
+          userType:"tempCustomer",
           isActive:true,
           createdDt:Date(),
           updatedDt:Date()
@@ -55,17 +56,48 @@ router.post("/UserCheck", (req, res) => {
         new User(user)
         .save()
             .then((response) => {
-              res.status("200").json({userId: response._id });
+              const payload = {
+                id: response._id,
+                mobile:response.mobile,
+                userType: response.userType,
+                isActive:response.isActive
+              };
+              jwt.sign(payload, (privateKey = "user"), (err, usertoken) => {
+                res.json({
+                success: true,
+                tokan: "Bearer " + usertoken,
+                });
+              })
             })
             .catch((err) => {
               console.log(err);
             });
-      }else{
-      res.status("200").json({userId: result._id });
-      }
-    })
-    .catch((err) => {
-      console.log(err);
+    }else{
+        const payload = {
+          id: result._id,
+          jbpId:result.jbpId,
+          name: result.fullName,
+          mail: result.mail,
+          mobile:result.mobile,
+          userType: result.userType,
+          address:result.address,
+          pincode:result.pincode,
+          country:result.country,
+          state:result.state,
+          city:result.city,
+          isActive:result.isActive
+    };
+      jwt.sign(payload, (privateKey = "user"), (err, usertoken) => {
+          res.json({
+          success: true,
+          tokan: "Bearer " + usertoken,
+          });
+        
     });
+  }
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 });
 module.exports = router;

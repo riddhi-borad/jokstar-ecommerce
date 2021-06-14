@@ -4,7 +4,7 @@ var newschema=new mongoose.Schema({
     jbpId:{
         type:String,
         trim:true,
-        required:true
+        // required:true
     },
     fullName:{
         type:String,

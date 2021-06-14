@@ -1,6 +1,7 @@
 const { request } = require("express");
 const express = require("express");
 const router = express.Router();
+const Quantity=require('./../models/quantityRange');
 const Cart=require("./../models/cart");
 const Product=require("./../models/product");
 const Wish=require("./../models/wish");
@@ -91,10 +92,33 @@ router.post("/updateCart", (req, res) => {
 router.get("/viewCart/:id", function (req, res) {
   Cart.find({ userId: req.params.id })
   .populate("productId")
-    .then((result) => {
+    .then(async(result) => {
       var price=[],total=[],a=0;
       for(var i in result){
-          price.push(Number(result[i].productId.price)*Number(result[i].quantity))
+        if(result[i].quantity>=1 && result[i].quantity<=2){
+     await   Quantity.findOne({prodId:result[i].productId._id,quantity:"1-2"})
+         .then((qunRange)=>{
+          price.push(Number(qunRange.discountedPrice)*Number(result[i].quantity))
+         }).catch((err)=>{
+           console.log(err)
+         })
+        }
+         else  if(result[i].quantity>=3 && result[i].quantity<=12){
+          await    Quantity.findOne({prodId:result[i].productId._id,quantity:"3-12"})
+          .then((qunRange)=>{
+           price.push(Number(qunRange.discountedPrice)*Number(result[i].quantity))
+          }).catch((err)=>{
+            console.log(err)
+          })
+         }
+          else if(result[i].quantity>=13){
+            await   Quantity.findOne({prodId:result[i].productId._id,quantity:"13+"})
+          .then((qunRange)=>{
+           price.push(Number(qunRange.discountedPrice)*Number(result[i].quantity))
+          }).catch((err)=>{
+            console.log(err)
+          })
+         } 
       }
       for(var j in price)
       {

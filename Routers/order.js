@@ -7,16 +7,47 @@ router.post('/placeOrder',(req,res)=>{
     var orderId=Date.now()+Math.floor(Math.random()*99999)
  Cart.find({userId:req.body.userId})
     .populate("productId")
-    .then((resp)=>{
+    .then(async(resp)=>{
         for(var i in resp){
-            var price;
-            if(resp[i].productId.discountPrice){
-                price=resp[i].productId.discountPrice
-            }
-            else
-            {
-                price=resp[i].productId.price
-            }
+            var discountedPrice,discount,discountType;
+            if(resp[i].quantity>=1 && resp[i].quantity<=2){
+            await    Quantity.findOne({prodId:resp[i].productId._id,quantity:"1-2"})
+                .then((qunRange)=>{
+                    discountedPrice=qunRange.discountedPrice;
+                 discount=qunRange.discount
+                 discountType=qunRange.discountType
+                }).catch((err)=>{
+                  console.log(err)
+                })
+               }
+               else  if(resp[i].quantity>=3 && resp[i].quantity<=12){
+                await    Quantity.findOne({prodId:resp[i].productId._id,quantity:"3-12"})
+                .then((qunRange)=>{
+                    discountedPrice=qunRange.discountedPrice;
+                 discount=qunRange.discount
+                 discountType=qunRange.discountType
+                }).catch((err)=>{
+                  console.log(err)
+                })
+               }
+               else if(resp[i].quantity>=13){
+                await    Quantity.findOne({prodId:resp[i].productId._id,quantity:"13+"})
+                .then((qunRange)=>{
+                 discountedPrice=qunRange.discountedPrice; 
+                 discount=qunRange.discount
+                 discountType=qunRange.discountType
+                }).catch((err)=>{
+                  console.log(err)
+                })
+               } 
+            
+            // if(resp[i].productId.discountPrice){
+            //     price=resp[i].productId.discountPrice
+            // }
+            // else
+            // {
+            //     price=resp[i].productId.price
+            // }
             let addorder={
                 orderId:orderId,
                 userId:resp[i].userId,
@@ -31,10 +62,10 @@ router.post('/placeOrder',(req,res)=>{
                 mobile:req.body.mobile,
                 status:"Ordered",
                 paymentMode:"Cash On Delivery",
-                amount:Number(price)*Number(resp[i].quantity),
-                discountPrice:resp[i].productId.discountPrice,
-                discount:resp[i].productId.discount,
-                discountType:resp[i].productId.discountType,
+                amount:Number(discountedPrice)*Number(resp[i].quantity),
+                discountedPrice:discountedPrice,
+                discount:discount,
+                discountType:discountType,
                 quantity:resp[i].quantity,
                 returnStatus:req.body.returnStatus,
                 refundStatus:req.body.refundStatus,

@@ -84,7 +84,7 @@ var newschema=new mongoose.Schema({
         trim:true,
     },
     discountType:{
-        type:Number,
+        type:String,
         trim:true,
     },
     returnStatus:{

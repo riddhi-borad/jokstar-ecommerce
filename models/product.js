@@ -86,18 +86,18 @@ var newschema=new mongoose.Schema({
         type:Date,
         required:true
     },
-    discount:{
-        type:Number,
-        trim:true
-    },
-    discountPrice:{
-        type:Number,
-        trim:true
-    },
-    discountType:{
-        type:String,
-        trim:true
-    }
+    // discount:{
+    //     type:Number,
+    //     trim:true
+    // },
+    // discountPrice:{
+    //     type:Number,
+    //     trim:true
+    // },
+    // discountType:{
+    //     type:String,
+    //     trim:true
+    // }
 },
 
 
