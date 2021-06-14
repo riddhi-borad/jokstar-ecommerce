@@ -150,7 +150,7 @@ router.get("/prodDetail/:id", async(req, res) => {
                 prod: response,
                 quantity: result,
               };
-              arr.push(obj);
+              res.status("200").json(obj);
             })
             .catch((err) => {
               console.log(err);
@@ -159,7 +159,7 @@ router.get("/prodDetail/:id", async(req, res) => {
       .catch((err) => {
         console.log(err);
       });
-      res.status("200").json(arr);
+     
   });
 
 
