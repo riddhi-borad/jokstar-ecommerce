@@ -43,7 +43,8 @@ const admin=require("./Routers/master");
 const cart =require("./Routers/cart")
 const order=require("./Routers/order");
 const banner=require("./Routers/banner");
+const offerbanner=require("./Routers/offersBanner");
 const state=require("./Routers/state");
 const city=require("./Routers/city");
 const wish=require("./Routers/wish");
-app.use('/',login,registration,category,lvl2category,lvl3category,product,admin,order,banner,state,city,cart,wish);
+app.use('/',login,registration,category,lvl2category,lvl3category,product,admin,order,banner,state,city,cart,wish,offerbanner);
